@@ -1,0 +1,25 @@
+{% extends 'app1/base.html' %}
+
+{% block title %}Chat{% endblock title %}
+
+{% block body %}
+    <h1 class='px-6 py-3 text-2xl'>Chat</h1>
+    <div class="space-y-6">
+        {% for message in conversation.messages.all %}           
+                <div class="p-6 flex {% if message.created_by == request.user %} bg-blue-100 {% else %} bg-gray-100 {% endif %} rounded-xl">
+                    <div class='mb-4'>
+                        <strong>{{message.created_by.username}}</strong>
+                        @ {{message.created_at}}
+                        <p>{{message.content}}</p>
+                    </div>
+                   
+                </div>           
+        {% endfor %}
+    </div>
+
+    <form action="." method='POST'>
+        {% csrf_token %}
+        {{form.as_p}}
+        <input class='cursor-pointer bg-teal-500 p-2 hover:bg-teal-700 rounded-xl mt-6' type="submit" value='Küldés'>
+    </form>
+{% endblock body %}

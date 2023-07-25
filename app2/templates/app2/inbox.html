@@ -1,0 +1,26 @@
+{% extends 'app1/base.html' %}
+
+{% block title %}Beszélgetések{% endblock title %}
+
+{% block body %}
+    <h1 class='px-6 py-3 text-2xl'>Beszélgetések</h1>
+    <div class="space-y-6">
+        {% for conversation in conversations %}
+            <a href="{% url  'app2:detail' conversation.pk %}">
+                <div class="p-6 m-3 flex bg-gray-100 rounded-xl">
+                    <div class="pr-6">
+                        <img src="{{ conversation.item.image.url }}" class='w-20 rounded-xl' alt="">
+                    </div>
+                    <div>
+                        {% for member in conversation.members.all %}
+                            {% if member != request.user %}
+                            <p class="mb-4"><strong>{{member.username}}</strong> | {{conversation.modified_at}}</p>
+                            <p>{{conversation.item.name}}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock body %}
